@@ -1,0 +1,89 @@
+name: Summarize new issues
+
+on:
+  issues:
+    types: [opened]
+
+jobs:
+  summary:
+    runs-on: ubuntu-latest
+    permissions:
+      issues: write
+      models: read
+      contents: read
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Run AI inference
+        id: inference
+        uses: actions/ai-inference@v1
+        with:
+          prompt: |
+            Summarize the following GitHub issue in one paragraph:
+            Title: ${{ github.event.issue.title }}
+            Body: ${{ github.event.issue.body }}
+
+      - name: Comment with AI summary
+        run: |
+          gh issue comment $ISSUE_NUMBER --body '${{ steps.inference.outputs.response }}'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          ISSUE_NUMBER: ${{ github.event.issue.number }}
+          RESPONSE: ${{ steps.inference.outputs.response }}
+          
+               - 名稱:設定 Node.JS 環境
+                               USE:ctions_setup_node:ELSEA和:
+    # 在 npmrc 中設定 always-auth。
+      always-auth:
+    # 可選，預設為 false
+    # 要使用的版本的版本規格。範例：12.x、10.15.1、>=10.15.0。  
+      節點版本:
+    #可選
+    # 包含要使用的版本的版本規範的檔案。範例：.nvmrc、.node-version、.tool-versions。
+      node-version-file: 
+    #可選
+    # Node 使用的目標架構。範例：x86、x64。將預設使用系統架構。
+      架構:
+    #可選
+    # 如果您希望操作檢查符合版本規範的最新可用版本，請設定此選項。
+      檢查最新:
+    #可選
+    # 為授權設定的可選註冊表。將在專案級 .npmrc 和 .yarnrc 檔案中設定登錄，並設定從 env.NODE_AUTH_TOKEN 讀取的驗證。
+      registry-url:
+    # 可選
+    # 針對範圍註冊表進行身份驗證的可選範圍。使用 GitHub Packages 註冊表（https://npm.pkg.github.com/）時將回退至儲存庫擁有者。
+      範圍:
+    #可選
+    # 用於從節點版本中提取節點分佈。由於存在預設值，因此使用者通常不會提供該預設值。在 github.com 上執行此操作時，預設值就足夠了。在 GHES 上運行時，如果您遇到速率限制，您可以傳遞 github.com 的個人存取權杖。
+                  - token:${{ github.server_url == 'https://github.com' && github.token || '' }}
+    # 用於指定在預設目錄中進行快取的套件管理器。支援的值：npm、yarn、pnpm。
+      快取:
+    #可選
+    # 用於指定依賴檔案的路徑：package-lock.json、yarn.lock 等。支援通配符或檔案名稱列表，用於快取多個相依性。
+      快取依賴路徑:
+    #可選
+
+                            
+                - name: Setup .NET Core SDK
+      uses: actions/setup-dotnet@v3.4.2
+      with:
+    # Optional SDK version(s) to use. If not provided, will install global.json version when available. Examples: 2.2.104, 3.1, 3.1.x, 3.x, 6.0.2xx
+      dotnet-version: # optional
+    # Optional quality of the build. The possible values are: daily, signed, validated, preview, ga.
+      dotnet-quality: # optional
+    # Optional global.json location, if your global.json isn't located in the root of the repo.
+      global-json-file: # optional
+    # Optional package source for which to set up authentication. Will consult any existing NuGet.config in the root of the repo and provide a temporary NuGet.config using the NUGET_AUTH_TOKEN environment variable as a ClearTextPassword
+      source-url: # optional
+    # Optional OWNER for using packages from GitHub Package Registry organizations/users other than the current repository's owner. Only used if a GPR URL is also provided in source-url
+      owner: # optional
+    # Optional NuGet.config location, if your NuGet.config isn't located in the root of the repo.
+      config-file: # optional
+    # Optional input to enable caching of the NuGet global-packages folder
+      cache: # optional
+    # Used to specify the path to a dependency file: packages.lock.json. Supports wildcards or a list of file names for caching multiple dependencies.
+      cache-dependency-path: # optional
+          
+            
